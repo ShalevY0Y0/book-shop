@@ -131,6 +131,10 @@ function renderFilterbyQueryParams() {
     var maxPriceFilter = queryStringParams.get('max-price');
     var  minRateFilter = queryStringParams.get('min-rate');
 
+    if(!maxPriceFilter && !minRateFilter){
+        return;
+    }
+
     document.querySelector('#max-price').value = maxPriceFilter;
     document.querySelector('#min-rate').value = minRateFilter;
 
