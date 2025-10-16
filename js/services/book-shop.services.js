@@ -18,7 +18,7 @@ function removeBook(bookId) {
     gBooks.splice(index,1);
 
     const booksLen = getBookLenAfterFilter();
-    if (booksLen % gPageSize === 0 && (gPageIdx) * gPageSize === booksLen) {
+    if (booksLen % gPageSize === 0 && (gPageIdx) * gPageSize === booksLen && gPageIdx !== 0) {
         gPageIdx--;
     }
 
@@ -37,7 +37,7 @@ function updateBook(bookId, price) {
     gBooks[index].price = price;
 
     const booksLen = getBookLenAfterFilter();
-    if (booksLen % gPageSize === 0 && (gPageIdx) * gPageSize === booksLen) {
+    if (booksLen % gPageSize === 0 && (gPageIdx) * gPageSize === booksLen && gPageIdx !== 0) {
         gPageIdx--;
     }
     

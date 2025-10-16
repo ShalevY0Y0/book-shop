@@ -97,3 +97,7 @@ h1{
     display: flex;
     justify-content: space-between;
 }
+
+#max-price{
+    width: 40px;
+}

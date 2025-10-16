@@ -40,7 +40,7 @@ function renderBooks() {
         document.querySelector('.prev').disabled = false;
     }
 
-    if(currentPage + 1 === Math.ceil(booksLen / pageSize)) {
+    if(currentPage + 1 === Math.ceil(booksLen / pageSize) || booksLen === 0) {
         document.querySelector('.next').disabled = true;
     } else {
         document.querySelector('.next').disabled = false;
@@ -60,6 +60,11 @@ function onRemoveBook(bookId) {
 function onAddBook() {
     var name = prompt('name ?');
     var price = Number(prompt('price ?'));
+
+    if (price > 200) {
+        alert("The price must be less than 200")
+        return;
+    }
     
     addBook(name,price);
     renderBooks();
@@ -67,6 +72,12 @@ function onAddBook() {
 
 function onUpdateBook(bookId) {
     var price = Number(prompt('price ?'));
+
+    if (price > 200) {
+        alert("The price must be less than 200")
+        return;
+    }
+    
     updateBook(bookId,price);
 
     renderBooks();
