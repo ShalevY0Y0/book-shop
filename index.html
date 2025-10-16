@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title>Book Shop</title>
+</head>
+<body onload = "onInit()">
+    <div class="table-wrapper">
+    
+    <h1>Welcome To My Bookshop</h1>
+    <div class="filter">
+        <h2 class="filter-title">Filter</h2>
+        <form action="" onsubmit = "onSetFilter(event)">
+            <label for="">Min Rate:</label>
+                <input type="number" name="min-price" placeholder="Filter by min rate" id="min-rate" value="0" max="10" min="0">
+            <label for="">Max Price:</label>
+                <input type="number" name="max-price" placeholder="Filter by max price" id="max-price" value="200" min="0" max="200" >
+
+                <button type="submit">Apply filter</button>
+        </form>
+
+    </div>
+    <button class ="new-book" onclick="onAddBook()">Create new book</button>
+    
+    <table class="table-container">
+        <thead>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+    <div class="prev-next">
+        <button class="prev" onclick = "onPrevPage()">prev</button>
+        <button class="next" onclick="onNextPage()">next</button>
+    </div>
+    </div>
+    <div class="modal">
+        <h3></h3>
+        <h4></h4>
+        <h4>The Book Descreption 📚</h4>
+        <p></p>
+        
+        <div class="rating-wrapper">
+            <button class="plus" onclick="onIncreaseRate()">⬆️</button>
+            <span class="rating"></span>
+            <button class="minus" onclick="onDecreaseRate()">⬇️</button>
+        </div>
+
+        <button onclick="onCloseModal()">close</button>
+
+    </div>
+
+    <script src="./js/services/service.utils.js"></script>
+    <script src="./js/services/storage.service.js"></script>
+    <script src="./js/services/book-shop.services.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>

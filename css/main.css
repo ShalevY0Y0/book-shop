@@ -1,0 +1,99 @@
+body,html {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.table-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+
+}
+.read{
+    background-color:  #006DBC;;
+}
+
+.update{
+    background-color: orange;
+}
+
+.delete{
+    background-color: red;
+}
+
+.CRUD{
+    color: white;
+    border-radius: 8px;
+    padding: 7px 10px;
+    border: 1px;
+    cursor: pointer;
+    font-size: 14px;
+}
+td{
+    padding: 10px;
+    border: 1px solid blue;
+    text-align: center;
+  }
+
+th{
+    padding: 10px;
+    border: 1px solid blue;
+    text-align: center;
+}
+
+table{
+    border: 1px solid blue;
+    border-collapse: collapse;
+    height: 30%;
+}
+tbody{
+    border: 1px solid blue;
+}
+
+.new-book{
+    background-color: white;
+    border: 0px;
+    padding: 5px 0px;
+    color: #006DBC;
+    align-self: flex-start;
+    
+}
+
+h1{
+   align-self: flex-start;   
+}
+
+.modal{
+    position: absolute;
+    background-color: seagreen;
+    height: 80vh;
+    width: 750px;
+    top:0px;
+    left: 150%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.modal.open {
+    left: 50%;
+    transition: left .5s;
+
+}
+
+.filter {
+    align-self: flex-start;
+}
+
+.prev-next{
+    align-self: stretch;
+    display: flex;
+    justify-content: space-between;
+}
