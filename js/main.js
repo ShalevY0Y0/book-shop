@@ -143,6 +143,17 @@ function renderFilterbyQueryParams() {
     var  minRateFilter = queryStringParams.get('min-rate');
 
     if(!maxPriceFilter && !minRateFilter){
+        const initPrice = getgMaxPrice();
+        const initRate = getgMinRate();
+        const queryStringParams = `?max-price=${initPrice}&min-rate=${initRate}`
+        const cuurentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
+        const newUrl = cuurentUrl + queryStringParams;
+        window.history.pushState({path: newUrl},'',newUrl);
+
+        document.querySelector('#max-price').value = initPrice;
+        document.querySelector('#min-rate').value = initRate;
+        
+        
         return;
     }
 
