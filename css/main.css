@@ -74,7 +74,7 @@ h1{
     position: absolute;
     background-color: seagreen;
     height: 80vh;
-    width: 750px;
+    width: 800px;
     top:0px;
     left: 150%;
     display: flex;
@@ -84,7 +84,7 @@ h1{
 }
 
 .modal.open {
-    left: 50%;
+    left: 47%;
     transition: left .5s;
 
 }

@@ -33,7 +33,7 @@ function renderBooks() {
     const pageSize = getgPageSize();
     const booksLen = getBookLenAfterFilter();
 
-    console.log(currentPage)
+    
     if (currentPage === 0) {
         document.querySelector('.prev').disabled = true;
     } else {
@@ -84,35 +84,61 @@ function onUpdateBook(bookId) {
 }
 
 function onReadBook(bookId) {
+    openModal(bookId);
+    updateLatestBookRead(bookId);
+
+    const maxPriceFilter = getgMaxPrice();
+    const minRateFilter = getgMinRate();
+    const latestBookReadId = getgLatestBookRead().id;
+    const isModalOpen = getgModalOpen();
+    
+    const queryStringParams = `?max-price=${maxPriceFilter}&min-rate=${minRateFilter}&latest-book-desc-read-id=${latestBookReadId}&is-modal-open=${isModalOpen}`
+    const cuurentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
+    const newUrl = cuurentUrl + queryStringParams;
+    window.history.pushState({path: newUrl},'',newUrl);
+}
+
+function openModal(bookId) {
     const book = getBookById(bookId);
-    console.log(book.desc)
     const elModal = document.querySelector('.modal')
     elModal.classList.add('open');
     elModal.querySelector('h3').innerText = `${book.name}`
     elModal.querySelector('h4').innerText = `Price: ${book.price}$`
     elModal.querySelector('p').innerText = `${book.desc}`
     elModal.querySelector('.rating').innerText = `${book.rate}`
-    updateLatestBookRead(bookId);
+    setgModalOpen();
+    
 }
 
 function onCloseModal() {
     const elModal = document.querySelector('.modal')
     elModal.classList.remove('open');
+    
+    setgModalOpen()
+
+    const maxPriceFilter = getgMaxPrice();
+    const minRateFilter = getgMinRate();
+    const latestBookReadId = getgLatestBookRead().id;
+    const isModalOpen = getgModalOpen();
+
+
+    const queryStringParams = `?max-price=${maxPriceFilter}&min-rate=${minRateFilter}&latest-book-desc-read-id=${latestBookReadId}&is-modal-open=${isModalOpen}`
+    const cuurentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
+    const newUrl = cuurentUrl + queryStringParams;
+    window.history.pushState({path: newUrl},'',newUrl);
 }
 
 function onIncreaseRate() {
     increaseRate();
     
-    const book = getLatestBookRead();
+    const book = getgLatestBookRead();
     document.querySelector('.rating').innerHTML = book.rate;
-
-
 }
 
 function onDecreaseRate() {
     decreaseRate();
 
-    const book = getLatestBookRead();
+    const book = getgLatestBookRead();
     document.querySelector('.rating').innerHTML = book.rate;
 }
 
@@ -123,17 +149,16 @@ function onSetFilter(ev) {
     
     var maxPriceFilter = document.querySelector('#max-price').value;
     var minRateFilter = document.querySelector('#min-rate').value;
+    const latestBookReadId = getgLatestBookRead().id;
+    const isModalOpen = getgModalOpen();
 
     setFilter(maxPriceFilter,minRateFilter);
     renderBooks()
 
-    const queryStringParams = `?max-price=${maxPriceFilter}&min-rate=${minRateFilter}`
+    const queryStringParams = `?max-price=${maxPriceFilter}&min-rate=${minRateFilter}&latest-book-desc-read-id=${latestBookReadId}&is-modal-open=${isModalOpen}`
     const cuurentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
     const newUrl = cuurentUrl + queryStringParams;
-    window.history.pushState({path: newUrl},'',newUrl);    
-    //renderFilterbyQueryParams(maxPriceFilter,minRateFilter);
-
-    //console.log('maximum price : ',maxPrice,' min rate : ', minRate);
+    window.history.pushState({path: newUrl},'',newUrl);   
 }
 
 function renderFilterbyQueryParams() {
@@ -141,11 +166,15 @@ function renderFilterbyQueryParams() {
 
     var maxPriceFilter = queryStringParams.get('max-price');
     var  minRateFilter = queryStringParams.get('min-rate');
+    const latestBookReadId = queryStringParams.get('latest-book-desc-read-id');
+    const isModalOpen = queryStringParams.get('is-modal-open');
 
-    if(!maxPriceFilter && !minRateFilter){
+    if(!maxPriceFilter && !minRateFilter && !isModalOpen && !latestBookReadId){
         const initPrice = getgMaxPrice();
         const initRate = getgMinRate();
-        const queryStringParams = `?max-price=${initPrice}&min-rate=${initRate}`
+        const initgModalOpen = getgModalOpen();
+        const initLatestBookRead = "none";
+        const queryStringParams = `?max-price=${initPrice}&min-rate=${initRate}&latest-book-desc-read-id=${initLatestBookRead}&is-modal-open=${initgModalOpen}`
         const cuurentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
         const newUrl = cuurentUrl + queryStringParams;
         window.history.pushState({path: newUrl},'',newUrl);
@@ -153,14 +182,20 @@ function renderFilterbyQueryParams() {
         document.querySelector('#max-price').value = initPrice;
         document.querySelector('#min-rate').value = initRate;
         
-        
         return;
     }
 
     document.querySelector('#max-price').value = maxPriceFilter;
     document.querySelector('#min-rate').value = minRateFilter;
 
+
     setFilter(maxPriceFilter,minRateFilter);
+    updateLatestBookRead(latestBookReadId);
+    
+    if (isModalOpen === 'true') {
+        openModal(latestBookReadId)
+    }
+    
 
 }
 

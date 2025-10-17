@@ -3,6 +3,7 @@ var gLatestBookRead;
 var gMaxPrice = 200;
 var gMinRate = 0;
 var gPageIdx = 0;
+var gModalOpen = false;
 const gPageSize = 3;
 
 _createBooks();
@@ -47,6 +48,7 @@ function updateBook(bookId, price) {
 
 
 function getBookById(bookId) {
+    
     var book;
     for(let i = 0; i < gBooks.length; i++) {
         if(gBooks[i].id === bookId) {
@@ -77,10 +79,6 @@ function decreaseRate() {
     gLatestBookRead.rate--;
 
     _saveBooksToStorage();
-}
-
-function getLatestBookRead() {
-    return gLatestBookRead;
 }
 
 function getBooksForDisplay() {
@@ -126,6 +124,22 @@ function getgPageIdx() {
 
 function getgPageSize() {
     return gPageSize;
+}
+
+function setgModalOpen(){
+    if (gModalOpen === true) {
+        gModalOpen = false;
+    } else {
+        gModalOpen = true;
+    }
+}
+
+function getgModalOpen() {
+    return gModalOpen
+}
+
+function getgLatestBookRead(){
+    return gLatestBookRead
 }
 
 
