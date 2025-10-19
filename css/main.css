@@ -102,3 +102,13 @@ h1{
 #max-price{
     width: 40px;
 }
+
+header{
+    align-self: self-start;
+    margin-bottom: 10px;
+}
+
+.rtl {
+    direction: rtl;
+}
+

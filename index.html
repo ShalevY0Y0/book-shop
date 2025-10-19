@@ -8,21 +8,28 @@
 </head>
 <body onload = "onInit()">
     <div class="table-wrapper">
+        <header>
+            <select onchange="onSetLang(this.value)">
+                <option value="en">English</option>
+                <option value="he">עברית</option>
+                <option value="es">Spanish</option>
+            </select>
+        </header>
     
-    <h1>Welcome To My Bookshop</h1>
+    <h1 data-trans = "title">Welcome To My Bookshop</h1>
     <div class="filter">
-        <h2 class="filter-title">Filter</h2>
+        <h2 data-trans="filter" class="filter-title">Filter</h2>
         <form action="" onsubmit = "onSetFilter(event)">
-            <label for="">Min Rate:</label>
+            <label data-trans="min-rate" for="">Min Rate:</label>
                 <input type="number" name="min-price" placeholder="Filter by min rate" id="min-rate" max="10" min="0">
-            <label for="">Max Price:</label>
+            <label data-trans = 'max-price' for="">Max Price:</label>
                 <input type="number" name="max-price" placeholder="Filter by max price" id="max-price" max="200">
 
-                <button type="submit">Apply filter</button>
+                <button data-trans = "apply-filter" type="submit">Apply filter</button>
         </form>
 
     </div>
-    <button class ="new-book" onclick="onAddBook()">Create new book</button>
+    <button data-trans = "new-book" class ="new-book" onclick="onAddBook()">Create new book</button>
     
     <table class="table-container">
         <thead>
@@ -35,14 +42,17 @@
 
     </table>
     <div class="prev-next">
-        <button class="prev" onclick = "onPrevPage()">prev</button>
-        <button class="next" onclick="onNextPage()">next</button>
+        <button data-trans = "prev" class="prev" onclick = "onPrevPage()">prev</button>
+        <button data-trans = "next" class="next" onclick="onNextPage()">next</button>
     </div>
     </div>
     <div class="modal">
         <h3></h3>
-        <h4></h4>
-        <h4>The Book Descreption 📚</h4>
+        <div>
+        <span class = "price-title" data-trans = "price"></span>
+        <span class="book-price"></span>
+        </div>
+        <h4 data-trans = "book-desc">The Book Descreption 📚</h4>
         <p></p>
         
         <div class="rating-wrapper">
@@ -51,10 +61,11 @@
             <button class="minus" onclick="onDecreaseRate()">⬇️</button>
         </div>
 
-        <button onclick="onCloseModal()">close</button>
+        <button data-trans = "close-modal" onclick="onCloseModal()">close</button>
 
     </div>
 
+    <script src="./js/services/i18n.service.js"></script>
     <script src="./js/services/service.utils.js"></script>
     <script src="./js/services/storage.service.js"></script>
     <script src="./js/services/book-shop.services.js"></script>

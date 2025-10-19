@@ -27,10 +27,9 @@ function removeBook(bookId) {
 }
 
 function addBook(name,price) {
-    var newBook = _createBook(makeId(),name,price,makeLorem(),0);
+    var newBook = _createBook(makeId(),name,price,makeLoremForAllLang(),0);
     gBooks.push(newBook);
     _saveBooksToStorage();
-
 }
 
 function updateBook(bookId, price) {
@@ -147,14 +146,17 @@ function _createBooks() {
     var books = loadFromStorage('booksDB');
 
     if(!books) {
+        
+        
         books = [
-            _createBook(makeId(),"Source Code",80,makeLorem(),0),
-            _createBook(makeId(),"Bad Blood",98,makeLorem(),0),
-            _createBook(makeId(),"Harry Poter",50,makeLorem(),0),
-            _createBook(makeId(),"Yomano Shel Hnun",110,makeLorem(),0),
-            _createBook(makeId(),"Climate Disaster",67, makeLorem(),0)
+            _createBook(makeId(),"Source Code",80,makeLoremForAllLang(),0),
+            _createBook(makeId(),"Bad Blood",98,makeLoremForAllLang(),0),
+            _createBook(makeId(),"Harry Poter",50,makeLoremForAllLang(),0),
+            _createBook(makeId(),"Yomano Shel Hnun",110,makeLoremForAllLang(),0),
+            _createBook(makeId(),"Climate Disaster",67, makeLoremForAllLang(),0)
         ]
-    }
+      }
+    
 
     gBooks = books;
     _saveBooksToStorage();
@@ -162,12 +164,12 @@ function _createBooks() {
 
 
 
-function _createBook(id,name,price,desc,rate) {
+function _createBook(id,name,price,descObject,rate) {
     return {
         id: id,
         name: name,
         price: price,
-        desc: desc,
+        desc: descObject,
         rate: rate
     }
 }

@@ -1,5 +1,6 @@
 function onInit() {
     renderFilterbyQueryParams();
+    doTrans();
     renderBooks();
 }
 
@@ -10,7 +11,7 @@ function renderBooks() {
 
     var colunmTitles = `<tr>`;
     for(let i = 0; i < carFields.length; i++) {
-        colunmTitles+= `<th>${carFields[i]}</th>`
+        colunmTitles+= `<th data-trans="table-${carFields[i]}">${carFields[i]}</th>`
     }
     colunmTitles += `</tr>`
     document.querySelector('thead').innerHTML = colunmTitles;
@@ -20,10 +21,10 @@ function renderBooks() {
         tableData += `<tr>`;
         tableData += `<td>${books[i].id}</td>`
         tableData += `<td>${books[i].name}</td>`
-        tableData += `<td>${books[i].price}</td>`
-        tableData += `<td><button class = "read CRUD" onclick = "onReadBook('${books[i].id}')">Read</button></td>`
-        tableData += `<td><button class = "update CRUD" onclick = "onUpdateBook('${books[i].id}')">Update</button></td>`
-        tableData += `<td><button class = "delete CRUD" onclick = "onRemoveBook('${books[i].id}')">Delete</button></td>`
+        tableData += `<td data-price = "${books[i].price}" class = "price-by-lang">${formatCurrency(books[i].price,getgCurrentLang())}</td>`
+        tableData += `<td><button data-trans = "read" class = "read CRUD" onclick = "onReadBook('${books[i].id}')">Read</button></td>`
+        tableData += `<td><button data-trans = "update" class = "update CRUD" onclick = "onUpdateBook('${books[i].id}')">Update</button></td>`
+        tableData += `<td><button data-trans = "delete" class = "delete CRUD" onclick = "onRemoveBook('${books[i].id}')">Delete</button></td>`
         tableData += `</tr>`
     }
 
@@ -45,15 +46,15 @@ function renderBooks() {
     } else {
         document.querySelector('.next').disabled = false;
     }
-
-
-
 }
+
+
 
 function onRemoveBook(bookId) {
     removeBook(bookId);
     
     renderBooks();
+    doTrans();
 
 }
 
@@ -68,6 +69,7 @@ function onAddBook() {
     
     addBook(name,price);
     renderBooks();
+    doTrans();
 }
 
 function onUpdateBook(bookId) {
@@ -81,6 +83,7 @@ function onUpdateBook(bookId) {
     updateBook(bookId,price);
 
     renderBooks();
+    doTrans();
 }
 
 function onReadBook(bookId) {
@@ -99,12 +102,14 @@ function onReadBook(bookId) {
 }
 
 function openModal(bookId) {
+    console.log(gBooks)
+    const lang = getgCurrentLang();
     const book = getBookById(bookId);
     const elModal = document.querySelector('.modal')
     elModal.classList.add('open');
     elModal.querySelector('h3').innerText = `${book.name}`
-    elModal.querySelector('h4').innerText = `Price: ${book.price}$`
-    elModal.querySelector('p').innerText = `${book.desc}`
+    elModal.querySelector('.book-price').textContent = ` ${formatCurrency(book.price,lang)}`
+    elModal.querySelector('p').innerText = `${book.desc[lang]}`
     elModal.querySelector('.rating').innerText = `${book.rate}`
     setgModalOpen();
     
@@ -149,11 +154,19 @@ function onSetFilter(ev) {
     
     var maxPriceFilter = document.querySelector('#max-price').value;
     var minRateFilter = document.querySelector('#min-rate').value;
-    const latestBookReadId = getgLatestBookRead().id;
+
+    var latestBookReadId;
+    if (!getgLatestBookRead()){
+        latestBookReadId = "none"
+    } else {
+        latestBookReadId = getgLatestBookRead().id
+    }
+         
     const isModalOpen = getgModalOpen();
 
     setFilter(maxPriceFilter,minRateFilter);
     renderBooks()
+    doTrans()
 
     const queryStringParams = `?max-price=${maxPriceFilter}&min-rate=${minRateFilter}&latest-book-desc-read-id=${latestBookReadId}&is-modal-open=${isModalOpen}`
     const cuurentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
@@ -195,16 +208,39 @@ function renderFilterbyQueryParams() {
     if (isModalOpen === 'true') {
         openModal(latestBookReadId)
     }
-    
-
 }
 
 function onNextPage() {
     nextPage();
     renderBooks();
+    doTrans();
 }
 
 function onPrevPage() {
     prevPage();
     renderBooks();
+    doTrans();
+}
+
+function refreshPriceFormatInTable() {
+    document.querySelectorAll('.price-by-lang').forEach(el => {
+        const price = Number(el.dataset.price);
+        el.textContent = formatCurrency(price, getgCurrentLang())
+    })
+}
+
+function onSetLang(lang) {
+    setLang(lang)
+    console.log('main.js')
+
+
+    if (lang === 'he') {
+        document.querySelector('body').classList.add('rtl')
+    } else {
+        document.querySelector('body').classList.remove('rtl')
+    }
+    doTrans()
+    refreshPriceFormatInTable()
+
+    
 }
